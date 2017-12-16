@@ -1,0 +1,39 @@
+[package]
+name = "rpm-timer"
+version = "0.0.1"
+authors = ["Marcin Sas-Szymanski <sasik520@gmail.com>"]
+description = "Small and simple to use tool that limits your processing speed to specified number of items per minute (or per second)"
+keywords = ["timer", "periodically", "rpm", "minute", "limit"]
+categories = []
+readme = "README.md"
+license = "MIT"
+repository = "https://github.com/synek317/rpm-timer"
+documentation = "https://docs.rs/rpm-timer"
+
+[badges]
+travis-ci = { repository = "synek317/rpm-timer", branch = "master" }
+maintenance = { status = "actively-developed" }
+
+[lib]
+doctest = false
+path = "src/lib.rs"
+
+[[example]]
+name = "000_hello"
+path = "examples/000_hello.rs"
+
+[[example]]
+name = "001_slice"
+path = "examples/001_slice.rs"
+
+[[example]]
+name = "002_iter"
+path = "examples/002_iter.rs"
+
+[dependencies]
+scoped-pool = "1.0.0"
+num_cpus = "1.7.0"
+
+[dev-dependencies]
+chrono = "0.4.0"
+rand = "0.3.18"
