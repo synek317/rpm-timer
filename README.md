@@ -1,6 +1,8 @@
 # Overview
 RpmTimer (_RequestPerMinute Timer_) is a tool for limiting your processing speed to the requested number of items (e.g. requests) per minut.
 
+It is designed to work with any rate-limited API.
+
 [![Crates.io](https://img.shields.io/crates/v/rpm-timer.svg)](https://crates.io/crates/rpm-timer)
 [![license](http://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/kbknapp/clap-rs/blob/master/LICENSE-MIT)
 [![Build Status](https://travis-ci.org/synek317/rpm-timer.svg?branch=master)](https://travis-ci.org/synek317/rpm-timer)

@@ -1,9 +1,9 @@
 [package]
 name = "rpm-timer"
-version = "0.0.1"
+version = "0.0.2"
 authors = ["Marcin Sas-Szymanski <sasik520@gmail.com>"]
-description = "Small and simple to use tool that limits your processing speed to specified number of items per minute (or per second)"
-keywords = ["timer", "periodically", "rpm", "minute", "limit"]
+description = "Small and simple to use tool that limits your processing speed to specified number of items per minute (or per second). Perfect for rate-limited APIs."
+keywords = ["timer", "periodically", "rpm", "rate", "limit"]
 categories = []
 readme = "README.md"
 license = "MIT"
