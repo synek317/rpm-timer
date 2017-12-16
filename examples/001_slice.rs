@@ -25,7 +25,7 @@ fn main() {
     RpmTimer::default()
         .rpm_limit(RPM)
         .max_threads(None)
-        .run_slice(&requests, &send_http_requests);
+        .run_slice(&requests, send_http_requests);
 
     log(format!("END - sending {} requests with the speed {} RPM. It took {}s (expected: {} - {}).", COUNT, RPM, elapsed_seconds(start_time), expected_time, expected_time + MAX_SEND_TIME_MS as f64 / 1000.0));
 }

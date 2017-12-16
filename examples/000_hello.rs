@@ -8,7 +8,7 @@ fn main() {
     RpmTimer::default()
         .rps_limit(1.0)
         .max_threads(1)
-        .run_slice(items, &print);
+        .run_slice(items, print);
 }
 
 fn print(items: &[&str]) {

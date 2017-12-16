@@ -44,7 +44,7 @@ use rpm_timer::RpmTimer;
 fn send_slice(requests: Vec<String>) {
     RpmTimer::default()
         .rpm_limit(100.0)
-        .run_slice(&requests, &send_http_requests);
+        .run_slice(&requests, send_http_requests);
 }
 
 fn send_http_requests(requests: &[&String]) {
@@ -64,7 +64,7 @@ fn send_slice(reader: BufReader) {
 
     RpmTimer::default()
         .rpm_limit(100.0)
-        .run_iter(lines, &send_http_requests);
+        .run_iter(lines, send_http_requests);
 }
 
 fn send_http_requests(requests: Vec<Result<String, io::Error>>) {

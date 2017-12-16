@@ -44,7 +44,7 @@
 //! fn send_slice(requests: Vec<String>) {
 //!     RpmTimer::default()
 //!         .rpm_limit(100.0)
-//!         .run_slice(&requests, &send_http_requests);
+//!         .run_slice(&requests, send_http_requests);
 //! }
 //!
 //! fn send_http_requests(requests: &[&String]) {
@@ -64,7 +64,7 @@
 //!
 //!     RpmTimer::default()
 //!         .rpm_limit(100.0)
-//!         .run_iter(lines, &send_http_requests);
+//!         .run_iter(lines, send_http_requests);
 //! }
 //!
 //! fn send_http_requests(requests: Vec<Result<String, io::Error>>) {
@@ -171,7 +171,7 @@ use self::helpers::*;
 ///     RpmTimer::default()
 ///         .rps_limit(1.0)
 ///         .max_threads(1)
-///         .run_slice(items, &print);
+///         .run_slice(items, print);
 /// }
 ///
 /// fn print(items: &[&str]) {
@@ -227,8 +227,8 @@ impl RpmTimer {
     /// This is the preffered way unless you only have an iterator.
     ///
     /// It waits for all spawned threads to finish.
-    pub fn run_slice<T, F>(self, items: &[T], action: &F)
-        where F: Fn(&[T]) + Send + Sync,
+    pub fn run_slice<T, F>(self, items: &[T], action: F)
+        where F: Fn(&[T]) + Sync,
               T: Send + Sync
     {
         let mut last_dispatched_item_index = 0;
@@ -247,8 +247,8 @@ impl RpmTimer {
     /// This is the most generic solution but you should only use it when `run_slice` is not possible..
     ///
     /// It waits for all spawned threads to finish.
-    pub fn run_iter<T, I, F>(self, mut items: I, action: &F)
-        where F: Fn(Vec<T>) + Send + Sync,
+    pub fn run_iter<T, I, F>(self, mut items: I, action: F)
+        where F: Fn(Vec<T>) + Sync,
               I: Iterator<Item=T>,
               T: Send
     {
@@ -260,8 +260,8 @@ impl RpmTimer {
         });
     }
 
-    fn run<TItems, FAction, FTake>(self, action: &FAction, mut take: FTake)
-        where FAction: Fn(TItems) + Send + Sync,
+    fn run<TItems, FAction, FTake>(self, action: FAction, mut take: FTake)
+        where FAction: Fn(TItems) + Sync,
               FTake: FnMut(usize) -> (TItems, bool),
               TItems: Send
     {
@@ -287,6 +287,7 @@ impl RpmTimer {
                     if items_to_take > 0 {
                         let (taken_items, is_finished) = take(items_to_take);
                         let working_threads_clone      = working_threads.clone();
+                        let a = &action;
 
                         finished     = is_finished;
                         items_ready -= items_to_take as f64;
@@ -294,7 +295,7 @@ impl RpmTimer {
                         working_threads.increase();
 
                         scope.execute(move || {
-                            action(taken_items);
+                            a(taken_items);
                             working_threads_clone.decrease();
                         });
                     }
